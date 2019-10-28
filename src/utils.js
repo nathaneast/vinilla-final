@@ -97,7 +97,7 @@
    return arr;
   };
 
-  // Return all elements of an array that don't pass a truth test.
+  // Return all elements of an array that don't pass a truth test. gogo
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
