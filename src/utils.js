@@ -103,7 +103,7 @@
     // copying code in and modifying it
   };
 
-  // Produce a duplicate-free version of the array.
+  // Produce a duplicate-free version of the array.1
   _.uniq = function(array) {
   };
 
