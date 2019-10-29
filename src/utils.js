@@ -89,7 +89,7 @@
     var arr = [];
     var fn = function(ele) {
       var value = test(ele);
-      if(value === true) {
+      if (value === true) {
         arr.push(ele);
       }
     }
@@ -101,12 +101,55 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var arr = [];
+    var fn = function(ele) {
+      var value = test(ele);
+      if (value === false) {
+        arr.push(ele);
+      }
+    }
+    _.each(collection, fn);
+   return arr;
   };
 
   // Produce a duplicate-free version of the array.1
-  _.uniq = function(array) {
-  };
+  _.uniq = function (array) {
+    var arr = [];
+    // var arrFn = function (ele) {
+      //   var value = arrayEle === arr[ele];
+      //   //value에 true ,false 담음
+      //   if (value === false) {
+        //     arr.push(arrayEle);
+        //   }
+        // };
+        // var arrayFn = function (ele) {
+          // var arrayEle = ele;
+          // console.log(ele);
+          // _.each(arr, arrFn);
+          // }
+          // _.each(array, arrayFn);
+    //array 요소 모두 fn함수 실행
 
+    _.each(array, function (ele) {
+      if (arr === undefined) {
+        arr.push(array[ele]);
+      } else {
+        //arr의 길이가 1 이상이면
+        var boolList = [];
+        _.each(arr, function (el) {
+          //arr 배열수 모두 함수 실행
+          boolList.push(arrey[ele] === arr[el]);
+        });
+        function recursion (bool) {
+          for (var i = 0; boolList.length > i; i++) {
+            
+          }
+        }
+      }
+    });
+
+    return arr;
+  };
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
