@@ -194,23 +194,32 @@
     //        No accumulator is given so the first element is used.
   _.reduce = function (collection, iterator, accumulator) {
     var result;
+    var pass = true;
       for (var i = 0; collection.length > i; i++) {
         if (i === 0) {
           if (accumulator === undefined) {
-            result = iterator(collection[0], collection[i]);
-            //처음 메모값은 첫번째수, 메모
+            result = iterator(collection[0], collection[1]);
+            //memo가 없으면 배열의 첫번째 요소가 memo
+            //두번째 요소가 item
+            pass = false;
           } else {
             result = iterator(accumulator, collection[i]);
           }
         } else {
           //두번째 계산부터는 result 값이 memo
-          if (result === undefined) {
-
-          }  else {
+          if (pass) {
             result = iterator(result, collection[i]);
+          } else {
+            if (i === 1) {
+              i = 2;
+              result = iterator(result, collection[i]);
+            } else {
+              result = iterator(result, collection[i]);
+            }
           }
         }
       }
+      return result;
   };
 
   // Determine if the array or object contains a given value (using `===`).
