@@ -223,36 +223,66 @@
   _.contains = function (collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function (wasFound, item) {
-      //reduce 실행값 리턴
-      if (wasFound) {
-        //wasFound가 true면 
-        //true return하고 끝냄
-        return true;
-      }
-
-      if (Array.isArray(collection) === false) {
-        //객체인 경우
-        // item값을 가공해서 인자로 줘야 됨
-      } else {
-
-      }
-
-      return item === target;
-      //이 계산이 wasFound 값
-    }, false); //초기값 memo로 false
+    if (Array.isArray(collection) === true) {
+      return _.reduce(collection, function (wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return target === item;
+      }, false);
+    } else {
+      var keyArr = Object.keys(collection);
+      return _.reduce(keyArr, function (wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return target === collection[item];
+      }, false);
+    }
   };
-
 
   // Determine whether all of the elements match a truth test.
   _.every = function (collection, iterator) {
     // TIP: Try re-using reduce() here.
+    if (collection.length === 0) {
+      return true;
+    }
+    
+    return _.reduce(collection, function (total, item) {
+      //every사용 => reduce 사용값을 리턴한다
+      if (total) {
+        if (iterator === undefined) {
+          return Boolean(item) && true;
+        } else {
+          return Boolean(iterator(item)) && true;
+        }
+      } else {
+        return false;
+      }
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function (collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    if (collection.length === 0) {
+      return false;
+    }
+    
+    return _.reduce(collection, function (total, item) {
+      //every사용 => reduce 사용값을 리턴한다
+      if (total === false) {
+        if (iterator === undefined) {
+          return Boolean(item) && true;
+        } else {
+          return Boolean(iterator(item)) && true;
+        }
+      } else {
+        return true;
+      }
+    }, false);
   };
 
 
@@ -275,6 +305,9 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function (obj) {
+    // 소스 ?
+    
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
