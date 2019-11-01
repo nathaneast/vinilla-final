@@ -194,28 +194,25 @@
     //        No accumulator is given so the first element is used.
   _.reduce = function (collection, iterator, accumulator) {
     var result;
-    var pass = true;
+    var haveMemo = true;
       for (var i = 0; collection.length > i; i++) {
         if (i === 0) {
           if (accumulator === undefined) {
             result = iterator(collection[0], collection[1]);
             //memo가 없으면 배열의 첫번째 요소가 memo
             //두번째 요소가 item
-            pass = false;
+            haveMemo = false;
           } else {
             result = iterator(accumulator, collection[i]);
           }
         } else {
           //두번째 계산부터는 result 값이 memo
-          if (pass) {
+          if (haveMemo) {
             result = iterator(result, collection[i]);
           } else {
-            if (i === 1) {
               i = 2;
               result = iterator(result, collection[i]);
-            } else {
-              result = iterator(result, collection[i]);
-            }
+              haveMemo = true;
           }
         }
       }
@@ -227,11 +224,23 @@
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function (wasFound, item) {
+      //reduce 실행값 리턴
       if (wasFound) {
+        //wasFound가 true면 
+        //true return하고 끝냄
         return true;
       }
+
+      if (Array.isArray(collection) === false) {
+        //객체인 경우
+        // item값을 가공해서 인자로 줘야 됨
+      } else {
+
+      }
+
       return item === target;
-    }, false);
+      //이 계산이 wasFound 값
+    }, false); //초기값 memo로 false
   };
 
 
