@@ -148,7 +148,7 @@
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var arr = [];
-    _.each(collection, function fn(num) {
+    _.each(collection, function (num) {
       arr.push(iterator(num));
     });
     return arr;
@@ -305,14 +305,27 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function (obj) {
-    // 소스 ?
-    
-
+    for (var i = 1; Object.keys(arguments).length > i; i++) {
+      for (var j = 0; Object.keys(arguments[i]).length > j; j++) {
+        var keyArr = Object.keys(arguments[i]);
+          obj[keyArr[j]] = arguments[i][keyArr[j]];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function (obj) {
+    for (var i = 1; Object.keys(arguments).length > i; i++) {
+      for (var j = 0; Object.keys(arguments[i]).length > j; j++) {
+        var keyArr = Object.keys(arguments[i]);
+        if (obj[keyArr[j]] === undefined) {
+          obj[keyArr[j]] = arguments[i][keyArr[j]];
+        }
+      }
+    }
+    return obj;
   };
 
 
