@@ -352,6 +352,7 @@
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
         // infromation from one function call to another.
+        
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -367,6 +368,13 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function (func, wait) {
+    var argList = [];
+    for (var i = 2; arguments.length > i; i++) {
+      argList.push(arguments[i]);
+    }
+    setTimeout(() => {
+      func.apply(null, argList);
+    }, wait);
   };
 
   /**
