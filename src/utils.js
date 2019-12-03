@@ -123,12 +123,12 @@
         answer.push(ele);
       } else {
         //ele값을 answer 모든 요소와 비교 후 boolList 배열에 담기
-        _.each(answer, function(answerEle) {
+        _.each(answer, function (answerEle) {
           var value = answerEle === ele;
           boolList.push(value);
         });
         //booList 배열 크기만큼 bool 값과 비교
-        _.each(boolList, function(boolListEle) {
+        _.each(boolList, function (boolListEle) {
           bool = boolListEle || bool;
         });
         if (bool === false) {
@@ -190,33 +190,33 @@
   //
   //   var identity = _.reduce([5], function(total, number){
   //     return total + number * number;
-    // }); // should be 5, regardless of the iterator function passed in
-    //        No accumulator is given so the first element is used.
+  // }); // should be 5, regardless of the iterator function passed in
+  //        No accumulator is given so the first element is used.
   _.reduce = function (collection, iterator, accumulator) {
     var result;
     var haveMemo = true;
-      for (var i = 0; collection.length > i; i++) {
-        if (i === 0) {
-          if (accumulator === undefined) {
-            result = iterator(collection[0], collection[1]);
-            //memo가 없으면 배열의 첫번째 요소가 memo
-            //두번째 요소가 item
-            haveMemo = false;
-          } else {
-            result = iterator(accumulator, collection[i]);
-          }
+    for (var i = 0; collection.length > i; i++) {
+      if (i === 0) {
+        if (accumulator === undefined) {
+          result = iterator(collection[0], collection[1]);
+          //memo가 없으면 배열의 첫번째 요소가 memo
+          //두번째 요소가 item
+          haveMemo = false;
         } else {
-          //두번째 계산부터는 result 값이 memo
-          if (haveMemo) {
-            result = iterator(result, collection[i]);
-          } else {
-              i = 2;
-              result = iterator(result, collection[i]);
-              haveMemo = true;
-          }
+          result = iterator(accumulator, collection[i]);
+        }
+      } else {
+        //두번째 계산부터는 result 값이 memo
+        if (haveMemo) {
+          result = iterator(result, collection[i]);
+        } else {
+          i = 2;
+          result = iterator(result, collection[i]);
+          haveMemo = true;
         }
       }
-      return result;
+    }
+    return result;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -247,7 +247,7 @@
     if (collection.length === 0) {
       return true;
     }
-    
+
     return _.reduce(collection, function (total, item) {
       //every사용 => reduce 사용값을 리턴한다
       if (total) {
@@ -270,7 +270,7 @@
     if (collection.length === 0) {
       return false;
     }
-    
+
     return _.reduce(collection, function (total, item) {
       //every사용 => reduce 사용값을 리턴한다
       if (total === false) {
@@ -308,7 +308,7 @@
     for (var i = 1; Object.keys(arguments).length > i; i++) {
       for (var j = 0; Object.keys(arguments[i]).length > j; j++) {
         var keyArr = Object.keys(arguments[i]);
-          obj[keyArr[j]] = arguments[i][keyArr[j]];
+        obj[keyArr[j]] = arguments[i][keyArr[j]];
       }
     }
     return obj;
@@ -352,7 +352,7 @@
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
         // infromation from one function call to another.
-        
+
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -390,6 +390,37 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function (collection, iterator) {
+    const typeList = _.map(collection, ele => typeof (ele));
+    let result = collection.slice(0);
+    if (_.contains(typeList, "object")) {
+      const ageList = _.pluck(collection, iterator);
+      if (ageList[0] < ageList[1]) {
+        return result;
+      } else {
+        result.splice(0, 1);
+        result.push(collection[0]);
+        return result;
+      }
+    } else if (_.contains(typeList, "number")) {
+      let numList = [];
+      let otherList = [];
+      for (let i = 0; i < typeList.length; i++) {
+        if (typeList[i] === "number") {
+          numList.push(collection[i]);
+        } else {
+          otherList.push(collection[i]);
+        }
+      }
+      
+      for (let i = 0; i < numList.length; i++) {
+        numList.reduce(numList, (num) => {
+          if (memo > num) {
+
+          }
+        });
+      }
+
+    }
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
