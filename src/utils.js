@@ -404,21 +404,68 @@
     } else if (_.contains(typeList, "number")) {
       let numList = [];
       let otherList = [];
-      for (let i = 0; i < typeList.length; i++) {
-        if (typeList[i] === "number") {
-          numList.push(collection[i]);
+      let temNum;
+      let comNum;
+      let returnBool;
+
+      //number, undefined 각 배열에 값 넣기
+      _.each(typeList, (ele, index) => {
+        if (ele === "number") {
+          numList.push(collection[index]);
         } else {
-          otherList.push(collection[i]);
+          otherList.push(collection[index]);
+        }
+      });
+
+      //numList가순서대로 정렬되었는지 검사
+      let loop = () => {
+        comNum = 0;
+        for (let i = 1; i < numList.length; i++) {
+          returnBool = true && numList[comNum] < numList[i];
+          comNum++;
         }
       }
-      
-      for (let i = 0; i < numList.length; i++) {
-        numList.reduce(numList, (num) => {
-          if (memo > num) {
+      //numList 순서 정렬
+      loop();
+      while(!returnBool) {
+        comNum = 0;
+        for (let i = 1; i < numList.length; i++) {
+          if (numList[comNum] > numList[i]) {
+            temNum = numList[comNum];
+            numList[comNum] = numList[i];
+            numList[i] = temNum;
+            console.log(comNum,i);
 
           }
-        });
+          comNum++;
+          console.log(numList);
+        }
+        loop();
       }
+      // console.log(numList);
+
+      //loop가 true면 값 계속실행
+
+      // while (loop) {
+      //   //식실행
+      // for (let i = 1; i < numList.length; i++) {
+      //   if (numList[temNum] > numList[i]) {
+      //   }
+      // }
+      //   //순서검사
+      // }
+
+      // _.every(numList, num => {
+      //   if ()
+      // });
+
+      // for (let i = 0; i < numList.length; i++) {
+      //   numList.reduce(numList, (num) => {
+      //     if (memo > num) {
+
+      //     }
+      //   });
+      // }
 
     }
   };
