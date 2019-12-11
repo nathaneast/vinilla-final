@@ -392,7 +392,9 @@
   _.sortBy = function (collection, iterator) {
     const typeList = _.map(collection, ele => typeof (ele));
     let result = collection.slice(0);
+
     if (_.contains(typeList, "object")) {
+      console.log(collection );
       const ageList = _.pluck(collection, iterator);
       if (ageList[0] < ageList[1]) {
         return result;
@@ -404,10 +406,7 @@
     } else if (_.contains(typeList, "number")) {
       let numList = [];
       let otherList = [];
-      let temNum;
-      let comNum;
       let returnBool;
-
       //number, undefined 각 배열에 값 넣기
       _.each(typeList, (ele, index) => {
         if (ele === "number") {
@@ -419,54 +418,51 @@
 
       //numList가순서대로 정렬되었는지 검사
       let loop = () => {
-        comNum = 0;
+        let comNum = 0;
+        returnBool = true;
         for (let i = 1; i < numList.length; i++) {
-          returnBool = true && numList[comNum] < numList[i];
+          returnBool = returnBool && numList[comNum] < numList[i];
           comNum++;
         }
+        return !returnBool
       }
+
       //numList 순서 정렬
-      loop();
-      while(!returnBool) {
-        comNum = 0;
+      while(loop()) {
+        let comNum = 0;
+        let temNum;
         for (let i = 1; i < numList.length; i++) {
           if (numList[comNum] > numList[i]) {
             temNum = numList[comNum];
             numList[comNum] = numList[i];
             numList[i] = temNum;
-            console.log(comNum,i);
-
           }
           comNum++;
-          console.log(numList);
         }
-        loop();
+        returnBool = loop();
       }
-      // console.log(numList);
-
-      //loop가 true면 값 계속실행
-
-      // while (loop) {
-      //   //식실행
-      // for (let i = 1; i < numList.length; i++) {
-      //   if (numList[temNum] > numList[i]) {
-      //   }
-      // }
-      //   //순서검사
-      // }
-
-      // _.every(numList, num => {
-      //   if ()
-      // });
-
-      // for (let i = 0; i < numList.length; i++) {
-      //   numList.reduce(numList, (num) => {
-      //     if (memo > num) {
-
-      //     }
-      //   });
-      // }
-
+      result = numList.concat(otherList);
+      return result;
+    } else if (_.contains(typeList, "string")) {
+      let numObj = [];
+      let comNum = 0;
+      let temNum;
+      _.each(collection, ele => {
+        let obj = {};
+        obj.numStr = ele;
+        obj.numLength = ele.length;
+        numObj.push(obj);
+      });
+      for (let i = 1; i < numObj.length; i++) {
+        if (numObj[comNum]["numLength"] > numObj[i]["numLength"]) {
+          temNum = numObj[comNum];
+          numObj[comNum] = numObj[i];
+          numObj[i] = temNum;
+        }
+        comNum++;
+      }
+      result = _.map(numObj, ele => ele.numStr);
+      return result;
     }
   };
 
